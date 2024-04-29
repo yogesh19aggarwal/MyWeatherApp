@@ -20,9 +20,9 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
-    //fb81cd2c7f975028f319fabf9ea1d1ce
-
     private lateinit var binding: ActivityMainBinding
+
+    val apiKey = System.getenv("API_KEY")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             .build().create(ApiInterface::class.java)
 
         val response =
-            retrofit.getWeatherData(cityName, "fb81cd2c7f975028f319fabf9ea1d1ce", "metric")
+            retrofit.getWeatherData(cityName, apiKey, "metric")
 
         response.enqueue(object : Callback<weatherApp> {
             override fun onResponse(call: Call<weatherApp>, response: Response<weatherApp>) {
