@@ -1,3 +1,7 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.fir.resolve.calls.tower.TowerScopeLevel
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -14,16 +18,29 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        android.buildFeatures.buildConfig = true
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            val p = Properties()
+            p.load(project.rootProject.file("local.properties").reader())
+            val yourKey: String = p.getProperty("API_KEY")
+            buildConfigField("String", "API_KEY", "\"$yourKey\"")
+        }
+        debug {
+            val p = Properties()
+            p.load(project.rootProject.file("local.properties").reader())
+            val yourKey: String = p.getProperty("API_KEY")
+            buildConfigField("String", "API_KEY", "\"$yourKey\"")
         }
     }
 

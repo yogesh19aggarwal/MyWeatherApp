@@ -22,8 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    val apiKey = System.getenv("API_KEY")
-
+    val api_key = BuildConfig.API_KEY
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -69,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             .build().create(ApiInterface::class.java)
 
         val response =
-            retrofit.getWeatherData(cityName, apiKey, "metric")
+            retrofit.getWeatherData(cityName, api_key, "metric")
 
         response.enqueue(object : Callback<weatherApp> {
             override fun onResponse(call: Call<weatherApp>, response: Response<weatherApp>) {
